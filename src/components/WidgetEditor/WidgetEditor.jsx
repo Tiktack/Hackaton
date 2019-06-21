@@ -2,8 +2,8 @@
 import React, { Component } from "react";
 import EditorJS from "@editorjs/editorjs";
 import { parcer } from "../../helpers/widgetParcer";
-import { slotWidget, headerOffer, meta } from "./constants";
-import { saveObjectAsJson, formatExport } from "../../helpers/jsonHelper";
+import { slotWidget, headerOffer, meta } from "../../constants";
+import { saveJsonAsFile, formatExport } from "../../helpers/jsonHelper";
 import Files from "react-files";
 import { importFromJson } from "../../helpers/jsonHelper";
 
@@ -29,7 +29,7 @@ class WidgetEditor extends Component {
   save = () => {
     this.editor.save().then(output => {
       console.log(output);
-      saveObjectAsJson(formatExport(output));
+      saveJsonAsFile(formatExport(output));
     });
   };
 

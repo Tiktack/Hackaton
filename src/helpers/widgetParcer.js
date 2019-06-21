@@ -95,17 +95,15 @@ const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
   const arrow = <div class="arrow-down" />;
 
   const widget = (
-    <div
-      className={`widget widget-${componentName}`}
-      componentName={componentName}
-    >
+    <div className={`widget widget-${componentName}`}>
       <div className="widgetHeader">
-        <label onclick={toggleWidget} className = "arrow-widgetName">
+        <label onclick={toggleWidget} className="arrow-widgetName">
           {arrow}
           <div className="widgetName">{displayName}</div>
         </label>
         <div className="vr" />
         <div
+          name="description"
           className="widgetDescription"
           ondblclick={makeContentEditable}
           onblur={makeContentNotEditable}
@@ -123,12 +121,14 @@ const inputSelect = (blockContent, name) =>
 const dateSelect = (blockContent, name) =>
   blockContent.querySelector(`[name=${name}]`).value;
 const imageSelect = (blockContent, name) => {
-  console.log(blockContent, name);
   return "Image";
 };
 
 const boolSelect = (blockContent, name) =>
   blockContent.querySelector(`[name=${name}]`).checked;
+
+const descriptionSelect = blockContent =>
+  blockContent.querySelector(`[name=description]`).textContent;
 
 const selectDataFromProperty = (blockContent, { name, type }) => {
   switch (type) {
@@ -142,15 +142,21 @@ const selectDataFromProperty = (blockContent, { name, type }) => {
       return boolSelect(blockContent, name);
     case "date":
       return dateSelect(blockContent, name);
+    case "description":
+      return descriptionSelect(blockContent);
     default:
       throw new Error("unrecognized type");
   }
 };
 
-const parceWidgetObjectSave = (blockContent, { props }) => {
-  const result = {};
+const parceWidgetObjectSave = (blockContent, { componentName, props }) => {
+  const result = {
+    componentName,
+    description: selectDataFromProperty(blockContent, { type: "description" }),
+    props: {}
+  };
   for (const key of props) {
-    result[key.name] = selectDataFromProperty(blockContent, key);
+    result.props[key.name] = selectDataFromProperty(blockContent, key);
   }
   return result;
 };
@@ -166,7 +172,6 @@ const generateClassFromWidget = widgetObject => {
     }
 
     constructor({ data }) {
-      console.log(data);
       this.data = data;
       this.widget = widgetObject;
     }
