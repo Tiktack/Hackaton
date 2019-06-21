@@ -35,19 +35,10 @@ const boolType = (name, displayName, value) => (
   <div className="property">
     <div className="property-label">{displayName}</div>
     <div className="property-input">
-      <div class="onoffswitch">
-        <input
-          type="checkbox"
-          name={name}
-          class="onoffswitch-checkbox"
-          id="myonoffswitch"
-          checked
-        />
-        <label class="onoffswitch-label" for="myonoffswitch">
-          <span class="onoffswitch-inner" />
-          <span class="onoffswitch-switch" />
-        </label>
-      </div>
+      <label class="form-switch">
+        <input type="checkbox" name={name} checked={value} />
+        <i />
+      </label>
     </div>
   </div>
 );
@@ -56,7 +47,7 @@ const dateType = (name, displayName, value) => (
   <div className="property">
     <div className="property-label">{displayName}</div>
     <div className="property-input">
-      <input type="date" name={name} value={value} />
+      <input type="datetime-local" name={name} value={value} />
     </div>
   </div>
 );
@@ -82,32 +73,62 @@ const generateProperty = ({ name, displayName, type }, value) => {
  * @param {Object} widgetObject object that should contain componentName displayName props
  */
 const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
-  const widget = (
-    <div className={`widget-${componentName}`} componentName={componentName} />
-  );
-  const widgetName = <div className="widgetName">{displayName}</div>;
-  const widgetProps = <div className="widgetProps" />;
+  const toggleWidget = e => {
+    console.log(e);
+    widgetProps.classList.toggle("hide");
+    arrow.classList.toggle("active");
+  };
 
+  const makeContentEditable = e => {
+    e.target.contentEditable = true;
+    e.target.focus();
+  };
+  const makeContentNotEditable = e => {
+    e.target.contentEditable = false;
+  };
+
+  const widgetProps = <div className="widgetProps" />;
 
   props.forEach(element => {
     widgetProps.appendChild(generateProperty(element, data[element.name]));
   });
-  widgetName.onclick = () => {
-    if (widgetProps.classList.contains("hide")) {
-      widgetProps.classList.remove("hide");
-    } else widgetProps.classList.add("hide");
-  };
-  widget.appendChild(widgetName);
+  const arrow = <div class="arrow-down" />;
+
+  const widget = (
+    <div
+      className={`widget widget-${componentName}`}
+      componentName={componentName}
+    >
+      <div className="widgetHeader">
+        <label onclick={toggleWidget} className = "arrow-widgetName">
+          {arrow}
+          <div className="widgetName">{displayName}</div>
+        </label>
+        <div className="vr" />
+        <div
+          className="widgetDescription"
+          ondblclick={makeContentEditable}
+          onblur={makeContentNotEditable}
+        />
+      </div>
+    </div>
+  );
   widget.appendChild(widgetProps);
   return widget;
 };
 
 const inputSelect = (blockContent, name) =>
   blockContent.querySelector(`[name=${name}]`).value;
+
+const dateSelect = (blockContent, name) =>
+  blockContent.querySelector(`[name=${name}]`).value;
 const imageSelect = (blockContent, name) => {
   console.log(blockContent, name);
   return "Image";
 };
+
+const boolSelect = (blockContent, name) =>
+  blockContent.querySelector(`[name=${name}]`).checked;
 
 const selectDataFromProperty = (blockContent, { name, type }) => {
   switch (type) {
@@ -118,9 +139,9 @@ const selectDataFromProperty = (blockContent, { name, type }) => {
     case "campaignImage":
       return imageSelect(blockContent, name);
     case "boolean":
-      return inputSelect(blockContent, name);
+      return boolSelect(blockContent, name);
     case "date":
-      return inputSelect(blockContent, name);
+      return dateSelect(blockContent, name);
     default:
       throw new Error("unrecognized type");
   }
