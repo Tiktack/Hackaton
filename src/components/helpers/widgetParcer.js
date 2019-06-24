@@ -74,10 +74,10 @@ const generateProperty = ({ name, displayName, type }, value) => {
  */
 const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
   const toggleWidget = e => {
-    console.log(e);
     widgetProps.classList.toggle("hide");
     arrow.classList.toggle("active");
   };
+  console.log(data);
 
   const makeContentEditable = e => {
     e.target.contentEditable = true;
@@ -108,6 +108,7 @@ const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
           ondblclick={makeContentEditable}
           onblur={makeContentNotEditable}
         />
+        {data.description}
       </div>
     </div>
   );

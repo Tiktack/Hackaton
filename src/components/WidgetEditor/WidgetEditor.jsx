@@ -1,106 +1,29 @@
-/* eslint-disable react/button-has-type */
-import React, { Component } from "react";
+import React, { useEffect, useState, useImperativeHandle } from "react";
 import EditorJS from "@editorjs/editorjs";
-import { parcer } from "../../helpers/widgetParcer";
-import { slotWidget, headerOffer, meta } from "../../constants";
-import { saveJsonAsFile, formatExport } from "../../helpers/jsonHelper";
-import Files from "react-files";
-import { importFromJson } from "../../helpers/jsonHelper";
+import { formatExport, importFromJson } from "../helpers/jsonHelper";
+import { createConfig } from "../helpers/configCreator";
 
-class WidgetEditor extends Component {
-  constructor() {
-    super();
-    this.editor = undefined;
-    this.state = {
-      jsonFile: {}
+const WidgetEditor = ({ data, types }, ref) => {
+  const editor = useState();
+
+  useImperativeHandle(ref, () => ({
+    async save() {
+      return formatExport(await editor.current.save());
+    }
+  }));
+
+  useEffect(() => {
+    editor.current = new EditorJS(createConfig(importFromJson(data), types));
+
+    return () => {
+      var elem = document.querySelector("#editor");
+      while (elem.firstChild) {
+        elem.removeChild(elem.firstChild);
+      }
     };
+  });
 
-    this.fileReader = new FileReader();
-    this.fileReader.onload = event => {
-      this.setState(
-        { jsonFile: importFromJson(JSON.parse(event.target.result)) },
-        () => {
-          console.log(this.state.jsonFile);
-        }
-      );
-    };
-  }
+  return <div id="editor" className="editor" />;
+};
 
-  save = () => {
-    this.editor.save().then(output => {
-      console.log(output);
-      saveJsonAsFile(formatExport(output));
-    });
-  };
-
-  componentWillUpdate = () => {
-    var elem = document.querySelector("#editor");
-    while (elem.firstChild) {
-      elem.removeChild(elem.firstChild);
-  }
-  };
-
-  componentDidMount = () => {
-    this.editor = new EditorJS({
-      holder: "editor",
-      autofocus: true,
-      tools: {
-        SlotWidget: {
-          class: parcer.generateClassFromWidget(slotWidget)
-        },
-        headerOffer: {
-          class: parcer.generateClassFromWidget(headerOffer)
-        },
-        meta: {
-          class: parcer.generateClassFromWidget(meta)
-        }
-      },
-      data: this.state.jsonFile
-    });
-  };
-
-  componentDidUpdate = () => {
-    this.editor = new EditorJS({
-      holder: "editor",
-      autofocus: true,
-      tools: {
-        SlotWidget: {
-          class: parcer.generateClassFromWidget(slotWidget)
-        },
-        headerOffer: {
-          class: parcer.generateClassFromWidget(headerOffer)
-        },
-        meta: {
-          class: parcer.generateClassFromWidget(meta)
-        }
-      },
-      data: this.state.jsonFile
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <Files
-          className="files-dropzone"
-          onChange={file => {
-            this.fileReader.readAsText(file[0]);
-          }}
-          onError={err => console.log(err)}
-          accepts={[".json"]}
-          multiple
-          maxFiles={3}
-          maxFileSize={10000000}
-          minFileSize={0}
-          clickable
-        >
-          Drop files here or click to upload
-        </Files>
-        <button onClick={() => this.save()}>save</button>
-        <div id="editor" className="editor" />
-      </>
-    );
-  }
-}
-
-export default WidgetEditor;
+export default React.forwardRef(WidgetEditor);
