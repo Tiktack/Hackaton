@@ -8,7 +8,7 @@ import WidgetEditor from "./components/WidgetEditor";
 
 function App() {
   const editor = useRef();
-  const [data, setData] = useState({ body: [] });
+  const [data, setData] = useState({ meta: {}, headerOffer: {}, body: [] });
   const [fileReader] = useState(new FileReader());
 
   useEffect(() => {

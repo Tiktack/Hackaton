@@ -77,8 +77,6 @@ const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
     widgetProps.classList.toggle("hide");
     arrow.classList.toggle("active");
   };
-  console.log(data);
-
   const makeContentEditable = e => {
     e.target.contentEditable = true;
     e.target.focus();
@@ -90,7 +88,9 @@ const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
   const widgetProps = <div className="widgetProps" />;
 
   props.forEach(element => {
-    widgetProps.appendChild(generateProperty(element, data[element.name]));
+    widgetProps.appendChild(
+      generateProperty(element, data.props[element.name])
+    );
   });
   const arrow = <div class="arrow-down" />;
 
@@ -107,8 +107,9 @@ const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
           className="widgetDescription"
           ondblclick={makeContentEditable}
           onblur={makeContentNotEditable}
-        />
-        {data.description}
+        >
+          {data.description}
+        </div>
       </div>
     </div>
   );
@@ -180,6 +181,7 @@ const generateClassFromWidget = widgetObject => {
     render = () => parceWidgetObjectView(this.widget, this.data);
 
     save = blockContent => parceWidgetObjectSave(blockContent, this.widget);
+    
   }
 
   return WidgetClass;

@@ -12,7 +12,6 @@ const generateTools = types => {
 };
 
 export const createConfig = (data, types = []) => {
-  console.log(data);
   return {
     holder: "editor",
     autofocus: true,

@@ -8,7 +8,7 @@ export const saveJsonAsFile = (data, fileName = "cms-output.json") => {
 
 export const formatExport = data => {
   const array = data.blocks;
-  let result = { };
+  let result = {};
   result["meta"] = array[0].data.props;
   result["headerOffer"] = array[1].data.props;
   result = { ...result, body: [] };
@@ -24,10 +24,13 @@ export const importFromJson = json => {
     version: "2.14.0",
     blocks: []
   };
-  result.blocks.push({ type: "meta", data: json.meta });
-  result.blocks.push({ type: "headerOffer", data: json.headerOffer });
+  result.blocks.push({ type: "meta", data: { props: json.meta } });
+  result.blocks.push({
+    type: "headerOffer",
+    data: { props: json.headerOffer }
+  });
   json.body.forEach(item => {
-    result.blocks.push({ type: item.componentName, data: item.props });
+    result.blocks.push({ type: item.componentName, data: item });
   });
   return result;
 };

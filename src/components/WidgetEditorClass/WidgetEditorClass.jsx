@@ -11,9 +11,7 @@ class WidgetEditorClass extends React.Component {
     );
   }
 
-  async save() {
-    return formatExport(await this.editor.save());
-  }
+  save = async () => formatExport(await this.editor.save());
 
   componentWillUpdate = () => {
     var elem = document.querySelector("#editor");
