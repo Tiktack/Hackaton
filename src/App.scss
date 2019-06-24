@@ -21,6 +21,11 @@ input {
   color: $input-color;
 }
 
+input[pattern]:invalid {
+  border-color: $content-editor-build-failed-text-color;
+  outline: none;
+}
+
 div {
   &:focus {
     outline: none;
@@ -85,6 +90,7 @@ button {
   display: flex;
   align-items: center;
   font-size: $application-font-size-big;
+  width: 70%;
 }
 .widgetDescription {
   margin-left: 5px;

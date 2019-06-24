@@ -5,7 +5,9 @@ export const slotWidget = {
     {
       name: "smallTitle",
       displayName: "small title",
-      type: "string"
+      type: "string",
+      default: "Here some default value for this string",
+      validation: "[A-z]{3}"
     },
     {
       name: "bigTitle",
