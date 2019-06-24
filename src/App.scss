@@ -90,6 +90,10 @@ button {
   margin-left: 5px;
   display: flex;
   flex-grow: 1;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .arrow-widgetName {
