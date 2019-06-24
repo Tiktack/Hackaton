@@ -7,11 +7,11 @@ U can use WidgetEditor functional component or WidgetEditorClass ES6 class compo
 ### `Usage`
 
 U should provide 2 props: 
-`data` - if u wanna load this widget with initial state
-`types` - array of types that you can use further
+`data` - if u wanna load this widget with initial state<br>
+`types` - array of types that you can use further<br>
 #### Interface:
-  `componentName: @string,
-  displayName: @string,
+  `componentName: @string,<br>
+  displayName: @string,<br>
   props: []`
 
 ### `Saving data`
