@@ -32,8 +32,7 @@ export const slotWidget = {
     {
       name: "showAsterisk",
       displayName: "show asterisk",
-      type: "boolean",
-      defaultValue: true
+      type: "boolean"
     },
     {
       name: "farecacheDeparture",
@@ -58,8 +57,7 @@ export const slotWidget = {
     {
       name: "sizes",
       displayName: "sizes",
-      type: "string",
-      defaultValue: "tiny-100 small-100 medium-50 large-33 xlarge-33"
+      type: "string"
     }
   ]
 };
@@ -101,14 +99,12 @@ export const headerOffer = {
     {
       name: "showApplePayCampaign",
       displayName: "show apple pay campaign",
-      type: "boolean",
-      defaultValue: true
+      type: "boolean"
     },
     {
       name: "showAsterisk",
       displayName: "show asterisk",
-      type: "boolean",
-      defaultValue: true
+      type: "boolean"
     },
     {
       name: "farecacheDeparture",
@@ -151,6 +147,54 @@ export const meta = {
       name: "slogan",
       displayName: "Slogan",
       type: "string"
+    }
+  ]
+};
+
+export const TopListWidget = {
+  componentName: "TopListWidget",
+  displayName: "Top List Widget",
+  props: [
+    {
+      name: "bottomTitle",
+      displayName: "bottom title",
+      type: "string"
+    },
+    {
+      name: "farecacheDeparture",
+      displayName: "farecache departure",
+      type: "string"
+    },
+    {
+      name: "infoIconEnabled",
+      displayName: "info icon enabled",
+      type: "boolean"
+    },
+    {
+      name: "linkUrl",
+      displayName: "link url",
+      type: "string"
+    },
+    {
+      name: "sizes",
+      displayName: "sizes",
+      type: "string"
+    },
+    {
+      name: "tooltipMessage",
+      displayName: "tooltip Message",
+      type: "string"
+    },
+    {
+      name: "topTitle",
+      displayName: "top title",
+      type: "string"
+    },
+    {
+      name: "items",
+      displayName: "items",
+      type: "array",
+      subType: "abbrevations"
     }
   ]
 };

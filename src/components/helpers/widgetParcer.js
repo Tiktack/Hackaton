@@ -1,58 +1,25 @@
 import * as React from "jsx-dom";
+import {
+  stringType,
+  arrayType,
+  boolType,
+  campaignImageType,
+  dateType,
+  imageType
+} from "./types";
+import {
+  inputSelect,
+  imageSelect,
+  descriptionSelect,
+  dateSelect,
+  boolSelect,
+  arraySelector
+} from "./selectors";
 
-const stringType = (name, displayName, value, validation) => (
-  <div className="property">
-    <div className="property-label">{displayName}</div>
-    <div className="property-input">
-      <input type="text" name={name} value={value} pattern={validation} />
-    </div>
-  </div>
-);
-
-const imageType = (name, displayName, value) => (
-  <div className="property">
-    <div className="property-label">{displayName}</div>
-    <div className="property-input">
-      <button name={name} onClick={() => console.log("buttonClicked")}>
-        Select an image
-      </button>
-    </div>
-  </div>
-);
-
-const campaignImageType = (name, displayName, value) => (
-  <div className="property">
-    <div className="property-label">{displayName}</div>
-    <div className="property-input">
-      <button name={name} onClick={() => console.log("buttonClicked")}>
-        Select a logo
-      </button>
-    </div>
-  </div>
-);
-
-const boolType = (name, displayName, value) => (
-  <div className="property">
-    <div className="property-label">{displayName}</div>
-    <div className="property-input">
-      <label class="form-switch">
-        <input type="checkbox" name={name} checked={value} />
-        <i />
-      </label>
-    </div>
-  </div>
-);
-
-const dateType = (name, displayName, value) => (
-  <div className="property">
-    <div className="property-label">{displayName}</div>
-    <div className="property-input">
-      <input type="datetime-local" name={name} value={value} />
-    </div>
-  </div>
-);
-
-const generateProperty = ({ name, displayName, type, validation }, value) => {
+const generateProperty = (
+  { name, displayName, type, validation, subType },
+  value
+) => {
   switch (type) {
     case "string":
       return stringType(name, displayName, value, validation);
@@ -64,6 +31,8 @@ const generateProperty = ({ name, displayName, type, validation }, value) => {
       return dateType(name, displayName, value);
     case "campaignImage":
       return campaignImageType(name, displayName, value);
+    case "array":
+      return arrayType(name, displayName, value, subType);
     default:
       throw new Error("unrecognized type");
   }
@@ -124,22 +93,7 @@ const parceWidgetObjectView = ({ componentName, displayName, props }, data) => {
   return widget;
 };
 
-const inputSelect = (blockContent, name) =>
-  blockContent.querySelector(`[name=${name}]`).value;
-
-const dateSelect = (blockContent, name) =>
-  blockContent.querySelector(`[name=${name}]`).value;
-const imageSelect = (blockContent, name) => {
-  return "Image";
-};
-
-const boolSelect = (blockContent, name) =>
-  blockContent.querySelector(`[name=${name}]`).checked;
-
-const descriptionSelect = blockContent =>
-  blockContent.querySelector(`[name=description]`).textContent;
-
-const selectDataFromProperty = (blockContent, { name, type }) => {
+const selectDataFromProperty = (blockContent, { name, type, subType }) => {
   switch (type) {
     case "string":
       return inputSelect(blockContent, name);
@@ -153,6 +107,8 @@ const selectDataFromProperty = (blockContent, { name, type }) => {
       return dateSelect(blockContent, name);
     case "description":
       return descriptionSelect(blockContent);
+    case "array":
+      return arraySelector(blockContent, subType, name)
     default:
       throw new Error("unrecognized type");
   }

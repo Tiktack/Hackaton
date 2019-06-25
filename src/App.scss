@@ -7,6 +7,7 @@ body {
   font-size: $application-font-size;
 }
 input {
+  padding-left: 3px;
   background-color: $input-background-color;
 
   &:focus {
@@ -107,6 +108,32 @@ button {
   flex-direction: row;
   width: 30%;
   cursor: pointer;
+}
+
+.abbrevation {
+  display: flex;
+  margin-bottom: 5px;
+  
+}
+.abbrevationName {
+  margin-right: 5px;
+}
+.abbrevation-index {
+  width: 5%;
+}
+.abbrevation-inputs {
+  display: flex;
+  flex-grow: 1;
+}
+.abbrevation-nameInput {
+  display: flex;
+}
+.abbrevation-farecacheDestinationInput {
+  display: flex;
+  flex-grow: 1;
+}
+.abbrevation-label {
+  width: 100%;
 }
 
 .form-switch {

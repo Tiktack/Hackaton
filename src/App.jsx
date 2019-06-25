@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./App.scss";
 import Files from "react-files";
 import { saveJsonAsFile } from "./components/helpers/jsonHelper";
-import { slotWidget, headerOffer, meta } from "./constants";
+import { slotWidget, headerOffer, meta, TopListWidget } from "./constants";
 import WidgetEditorClass from "./components/WidgetEditorClass";
 import WidgetEditor from "./components/WidgetEditor";
 
@@ -42,7 +42,7 @@ function App() {
       <WidgetEditor
         ref={editor}
         data={data}
-        types={[slotWidget, meta, headerOffer]}
+        types={[slotWidget, meta, headerOffer, TopListWidget]}
       />
     </>
   );
